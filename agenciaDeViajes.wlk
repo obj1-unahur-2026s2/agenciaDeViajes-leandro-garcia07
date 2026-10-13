@@ -25,14 +25,19 @@ class PackNacional inherits Pack{
     method actividades() = actividades
     override method esPremiun(){
         return self.duracion() > 10 and coordinador.esAltamenteCalificado()
-    }
-    
+    }    
 }
+// no reconoce salta !!/*
 
-class PackInternaiconal inherits Pack{
+//const salta = new PackNacional(provinciaDestino = "Salta", duracion = 10, coordinador = juan)
+//const juan = new Coordinador(cantidadViajesRealizados = 50, añosDeExperiencia = 3, rol = "Asistente logistico")
+// devuelve mal el coordinador
+//const packCba = new PackProvincial(provinciaDestino = "Cordoba", duracion = 10, coordinador = juan, ciudadesAVisitar = ["cruz del eje", "cordoba", "rosario"])
+//const packParis = new PackInternacional(paisDestino = "Francia", escalas = 0, coordinador = juan, duracion = 30)
+class PackInternacional inherits Pack{
     const paisDestino
     const escalas
-    method paisDestino() = paisDestino
+    method destino() = paisDestino
     method cantidadDeEscalas() = escalas
     method esLugarDeInteres() = false
     override method precioFinal(){
@@ -77,8 +82,6 @@ class Coordinador{
     }
     
 }
-const juan = new Coordinador(cantidadViajesRealizados = 50, añosDeExperiencia = 3, rol = "Asistente logistico")
-const packCba = new PackProvincial(provinciaDestino = "Cordoba", duracion = 10, coordinador = juan, ciudadesAVisitar = ["cruz del eje", "cordoba", "rosario"])
 
 object traslados{
     method tipo() = "Traslados privados"
