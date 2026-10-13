@@ -20,7 +20,7 @@ class Pack{
 
 class PackNacional inherits Pack{
     const provinciaDestino
-    const actividades = ["Cabalgata", "Trecking"]
+    const actividades = [cabalgata, trecking]
     method destino() = provinciaDestino
     method actividades() = actividades
     override method esPremiun(){
@@ -47,7 +47,7 @@ class PackProvincial inherits PackNacional{
     const ciudadesAVisitar = []
     method ciudadesAVisitar() = ciudadesAVisitar
     override method esPremiun(){
-        return actividades >= 4 and ciudadesAVisitar.size() > 5 and beneficios.size() >=3
+        return (actividades.size() >= 4) and (ciudadesAVisitar.size() > 5) and beneficios.size() >=3
     }
     override method precioFinal(){
         return if (self.esPremiun()) super() * 1.05 else super()
@@ -77,6 +77,8 @@ class Coordinador{
     }
     
 }
+const juan = new Coordinador(cantidadViajesRealizados = 50, añosDeExperiencia = 3, rol = "Asistente logistico")
+const packCba = new PackProvincial(provinciaDestino = "Cordoba", duracion = 10, coordinador = juan, ciudadesAVisitar = ["cruz del eje", "cordoba", "rosario"])
 
 object traslados{
     method tipo() = "Traslados privados"
@@ -94,4 +96,12 @@ object seguros{
     method tipo() = "Seguros adicionales"
     method estaVigente() = true
     method costo() = 12000 //en pesos    
+}
+
+object cabalgata{
+
+}
+
+object trecking{
+
 }
