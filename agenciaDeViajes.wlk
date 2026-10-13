@@ -1,30 +1,56 @@
 class Pack{
-    method duracion() // en dias
+    const duracion 
+    const coordinador
+    const beneficios = [traslados, seguros, accesoVIP ]
+    method duracion() = duracion// en dias
     method precioBase() = 50000
-    method costosBeneficios()
-    method beneficios()
-    method coordinador()
+    method costosBeneficios(){
+        return beneficios.sum({b => b.costo()})
+    }
+    method beneficios() = beneficios
+    method coordinador() = coordinador
     method precioFinal(){
         return self.precioBase() + self.costosBeneficios()
     }
+    method esPremiun()
+    method quitarBenedicio(unBeneficio){
+        beneficios.remove(unBeneficio)
+    }
 }
 
-class ViajeNacional inherits Pack{
+class PackNacional inherits Pack{
     const provinciaDestino
     const actividades = ["Cabalgata", "Trecking"]
     method destino() = provinciaDestino
     method actividades() = actividades
-
+    override method esPremiun(){
+        return self.duracion() > 10 and coordinador.esAltamenteCalificado()
+    }
+    
 }
 
-class ViajeInternaiconal inherits Pack{
+class PackInternaiconal inherits Pack{
     const paisDestino
     const escalas
     method paisDestino() = paisDestino
     method cantidadDeEscalas() = escalas
-    method esLugarDeInteres()
+    method esLugarDeInteres() = false
     override method precioFinal(){
         return super() * 1.2 
+    }
+    override method esPremiun(){
+        return self.esLugarDeInteres() and self.duracion() > 20 and self.cantidadDeEscalas() == 0
+    }
+}
+
+class PackProvincial inherits PackNacional{
+    const ciudadesAVisitar = []
+    method ciudadesAVisitar() = ciudadesAVisitar
+    override method esPremiun(){
+        return actividades >= 4 and ciudadesAVisitar.size() > 5 and beneficios.size() >=3
+    }
+    override method precioFinal(){
+        return if (self.esPremiun()) super() * 1.05 else super()
     }
 }
 
@@ -41,7 +67,7 @@ class Coordinador{
         if (nuevoRol == roles.any()) rol = nuevoRol else self.error("Rol Inexistente")
     }
     method esAltamenteCalificado(){
-        return (self.cantidadViajesRealizados() > 20) and self.guiaCalificado() or self.asistenteCalificado()
+        return (self.cantidadViajesRealizados() > 20) and (self.guiaCalificado() or self.asistenteCalificado())
     }
     method guiaCalificado(){
         return rol == "Guia" and self.estaMotivado()
